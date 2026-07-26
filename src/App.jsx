@@ -1,5 +1,5 @@
 import { useEffect, useState } from 'react'
-import { supabase } from './supabaseClient'
+import { supabase } from '../supabaseClient'
 import Login from './Login'
 
 function Dashboard({ user, onLogout }) {
@@ -28,11 +28,13 @@ export default function App() {
       setLoading(false)
     })
 
-    const { data: { subscription } = supabase.auth.onAuthStateChange((_event, session) => {
+    const { data: { subscription } } = supabase.auth.onAuthStateChange((_event, session) => {
       setSession(session)
     })
 
-    return () => subscription.unsubscribe()
+    return () => {
+      subscription.unsubscribe()
+    }
   }, [])
 
   const handleLogout = async () => {
